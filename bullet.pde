@@ -3,6 +3,10 @@
 // THIS PAGE CREATES THE BULLET IN THE GAME
 //**************************************************************
 //--------------------------------------------------------------
+
+//--------------------------------------------------------------
+//Bullet Class:Makes bullets
+//--------------------------------------------------------------
 class Bullet extends GameObject {
   //PVector loc;//bullet location
   //PVector vel;//bullet velocity
@@ -14,15 +18,18 @@ class Bullet extends GameObject {
     //loc = new PVector(player1.loc.x,player1.loc.y);
     //loc = player1.loc.copy();
     //vel = player1.vel.copy();
+    //makes sure it shoots from the spaceship
     super(player1.loc.copy(),player1.dir.copy());
     
-
+    //Time it 
     vel.setMag(10);
     timer = 60;
     d = 5;
+    //Die when collided
     lives = 1;
   }
   
+  //draw the bullet
   void show () {
     fill(black);
     stroke(white);
@@ -30,6 +37,7 @@ class Bullet extends GameObject {
     circle(loc.x,loc.y,d);
   }
   
+  //disappear automatically when timer is 0
   void act () {
     loc.add(vel);
     timer--;
@@ -37,6 +45,7 @@ class Bullet extends GameObject {
      lives = 0;
     }
     
+    //wrap around the screen
     wrapAround();
   }
   

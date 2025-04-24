@@ -4,10 +4,11 @@
 //**************************************************************
 //--------------------------------------------------------------
 void intro() {
+  //background
   background(black);
   background.show();
   //Font 
-  all = createFont("BabaPro.ttf",100);
+  textFont(all); // Preloaded 
   // Title text
   fill(white);
   textSize(550);
@@ -15,12 +16,12 @@ void intro() {
    textFont(all);
   text(  "A S T E R   I D S", width/2, 400);
  
-  if (millis() - loadingStartTime > 20000 || mode == intro) {
+  if (millis() - loadingStartTime > 90000 || mode == intro) {
     // Show and handle button
   myButton.text = "-     PL    Y     -";
   myButton.show();
   
-  
+  //When button clicked refresh the game
   if (mouseReleased && myButton.isHovered()) {
     mode = game;
     ship = new Spaceship(); // Reset the ship
@@ -41,12 +42,9 @@ void intro() {
   }
   
   }
+  
     //Icon of spaceship
     ship.icon(new PVector(960,620),-90,1.5);
     //Icon of spinning asteriod
     myAsteriod.aicon(new PVector(1080,405),80,0.02);
-    
-   
-    
-  
 }

@@ -25,6 +25,10 @@ class Spaceship extends GameObject {
   int teleportCooldown = 0;
   //15s
   final int timer = 900;
+  
+  //invincible period after losing life
+  int invincibilityTimer = 0;
+  final int INVINCIBILITY_DURATION = 100; // Frames of invincibility after hit
 
   //constructor
   Spaceship() {
@@ -35,15 +39,36 @@ class Spaceship extends GameObject {
     cooldown = 0;
     lives = 3;
   }
+  
   //behaviour function
   void show() {
     pushMatrix();
-    translate(loc.x,loc.y);
+    translate(loc.x, loc.y);
     rotate(dir.heading());
+    
+    if (invincibilityTimer > 0 && invincibilityTimer < 100) {
+      // draw invicibility mode
+       float fade = map(invincibilityTimer, 0, INVINCIBILITY_DURATION, 0, 127);
+        pushMatrix(); // Isolate scaling transformations
+        pushStyle(); // Save current drawing styles
+        fill(black, fade); // gradually fade
+        stroke(white, fade); //gradually fade
+        scale(6); // bigger size
+        drawShip(); // Draw the larger, transparent ship
+        popStyle(); // Restore original styles
+        popMatrix(); // Restore original transfromations
+    }
+    
+    // Draw the normal spaceship
+    pushMatrix(); 
     scale(1.5);
+    fill(black); // normal black
+    stroke(white); // normal white
     drawShip();
     popMatrix();
-  }
+    
+    popMatrix();
+}
   
   void icon (PVector il,int ag,float sc) {
     angle = ag;
@@ -53,6 +78,8 @@ class Spaceship extends GameObject {
     translate(il.x,il.y);
     rotate(radians(ag));
     scale(sc);
+    fill(black); // normal black
+    stroke(white); // normal white
     drawShip();
     popMatrix();
     
@@ -60,8 +87,6 @@ class Spaceship extends GameObject {
   
   
   void drawShip() {
-    fill(black);
-    stroke(white);
     strokeWeight(2);
     triangle(-5,-15,-5,15,20,0);//wings
     line(-5,-15,5,-15);//left antena
@@ -81,10 +106,14 @@ class Spaceship extends GameObject {
   }
   
   void effect() {
-    fill(black);
-    stroke(white);
     strokeWeight(2);
-    
+    if (invincibilityTimer > 0 && invincibilityTimer < 100) {
+       fill(black, 127); // half transparent black
+        stroke(white, 127); // half transparent white
+    }
+    else {
+    fill(black);
+    stroke(white);}
     //random size
     float fSize = random(10, 20); //flicker size
     
@@ -113,6 +142,8 @@ class Spaceship extends GameObject {
         while (!validPosition && attempts < 100) {
             newLoc.x = random(10, width-10);
             newLoc.y = random(10, height-10);
+            teleport.rewind();
+            teleport.play();
             validPosition = true;
             
             // Check against all asteroids
@@ -134,6 +165,12 @@ class Spaceship extends GameObject {
             teleportCooldown = timer;
         }
     }
+    
+    // Update invincibility timer
+    if (invincibilityTimer > 0) {
+      invincibilityTimer--;
+    }
+    
   }
   
   //enforce speed limit
@@ -156,12 +193,10 @@ class Spaceship extends GameObject {
      cooldown = cooldown-1;
     if (spacekey && cooldown <= 0 ) {
     objects.add (new Bullet());
+    fireshot.rewind();
+    fireshot.play();
     cooldown = 15;
     }
   }
-  
-  
- 
-  
   
 }

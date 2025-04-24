@@ -11,12 +11,33 @@
 // Declarations Imports and Initializations
 //--------------------------------------------------------------
 
+// Import required Minim libraries for audio handling
+import ddf.minim.*;
+import ddf.minim.analysis.*;
+import ddf.minim.effects.*;
+import ddf.minim.signals.*;
+import ddf.minim.spi.*;
+import ddf.minim.ugens.*;
 
 //import array list
 import java.util.ArrayList;
 
 //gif
 Gif background;
+
+// Audio system variables
+Minim minim;
+AudioPlayer backgroundm;
+AudioPlayer enermy;
+AudioPlayer firstc;
+AudioPlayer secondc;
+AudioPlayer beep;
+AudioPlayer thirdc;
+AudioPlayer fireshot;
+AudioPlayer teleport;
+AudioPlayer victory;
+AudioPlayer loss;
+AudioInput Input;
 
 //COLOR PALLETE
 //white color rgb(255,255,255)
@@ -81,6 +102,7 @@ PFont all;
 PImage bullet;
 PImage asteriods;
 PImage loadingBg;
+PImage ufo;
 
 //Pause variable
 boolean isPaused = false; 
@@ -127,6 +149,7 @@ void setup() {
   bullet = loadImage("bullet.png");//the bullet icon
   asteriods = loadImage("asteriod.png");//the asteriod picture
   loadingBg = loadImage("loading baackground.jpg");//the background of the loading page
+  ufo = loadImage("ufo.png");//the ufo picture
   
   //scaling loading mode background picture 
   loadingBg.resize(0, height);
@@ -138,10 +161,31 @@ void setup() {
   
   //uplod the gif
   //Gif(String before, String after, int numFrames,int speed,int x,int y,int w,int h)
-  background = new Gif("background/frame_","_delay-0.04s.gif",91,2,0,0,width,height);
+  background = new Gif("background/frame_","_delay-0.04s.gif",91,25,0,0,width,height);
   
   //loading page countdown
   loadingStartTime = millis();
+  
+  ///load font
+  all = createFont("BabaPro.ttf", 100); 
+  
+  // Initialize audio system
+  minim = new Minim (this);
+  
+  // Load all audio files
+  backgroundm = minim.loadFile("backgroundmusic.mp3");
+  enermy = minim.loadFile("ufonpc.mp3");
+  firstc = minim.loadFile("firstcollision.mp3");
+  secondc = minim.loadFile("secondcollision.mp3");
+  beep = minim.loadFile("27441_beep-beep-beep-beep-80262-[AudioTrimmer.com].mp3");
+  thirdc = minim.loadFile("third collision.mp3");
+  fireshot = minim.loadFile("space-gun-101680.mp3");
+  teleport = minim.loadFile("teleport-14639.mp3");
+  victory = minim.loadFile("victorymale-version-230553.mp3");
+  loss = minim.loadFile("8bit-lose-life-sound-wav-97245.mp3");
+   
+  //loop the song
+  backgroundm.loop();
 }
 
 //--------------------------------------------------------------

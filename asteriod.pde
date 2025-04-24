@@ -135,10 +135,27 @@ class Asteriod extends GameObject {
       //check distance
       float collisionDistance = d/2 + currentObject.d/2 + 15;
       if (dist(loc.x, loc.y, currentObject.loc.x, currentObject.loc.y) < collisionDistance) {
+         if (ship.invincibilityTimer <= 0) {
         //decrease life on both sides
         lives--;
         currentObject.lives--;
-        
+        beep.rewind();
+        beep.play();
+        if (currentObject.lives == 2) {
+          firstc.rewind();
+          firstc.play(); //<>//
+         
+        }
+        else if (currentObject.lives == 1) {
+          secondc.rewind();
+          secondc.play();
+        }
+        else if (currentObject.lives == 0) {
+          thirdc.rewind();
+          thirdc.play();
+        }
+        ship.invincibilityTimer = ship.INVINCIBILITY_DURATION; // Reset timer
+         }
         //calculate push force
         PVector collisionNormal = PVector.sub(loc, currentObject.loc).normalize();
         float force = 2.0;

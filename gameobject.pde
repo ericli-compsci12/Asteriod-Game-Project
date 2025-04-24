@@ -36,6 +36,7 @@ class GameObject {
     
   }
   
+  //function that wraps you around the screen
   void wrapAround() {
   if (loc.x > width) loc.x = 0;
   if (loc.x < 0) loc.x = width;

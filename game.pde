@@ -13,7 +13,9 @@ void game() {
     drawTeleportBar();//draw the cooldown of the teleport 
    
    updatePlayerReference();
-   
+  
+  //draw the icons of the bars
+  //draw bullet icon
   pushStyle(); 
   pushMatrix();
   pushStyle();
@@ -31,15 +33,17 @@ void game() {
   teleicon();
   popMatrix();
   
-  
+  //draw shipn icon
   ship.icon(new PVector(130, 80),-45,1);
   
+  //game over when player has no lives
    if (ship.lives <= 0) {
   mode = gameover;
   popStyle();
 
 }
-
+  
+  //only run when isnt paused
   if (!isPaused) {  
     
     //game engine 
@@ -66,6 +70,8 @@ void game() {
   
   //Determine whether game is won
   if (ship.lives <= 0) {
+     loss.rewind();
+    loss.play();
     mode = gameover;
     gameWon = false;
   } else {
@@ -77,7 +83,10 @@ void game() {
         break;
       }
     }
+    // win if all asteriod destroyed
     if (!asteroidsLeft) {
+      victory.rewind();
+      victory.play();
       mode = gameover;
       gameWon = true;
     }

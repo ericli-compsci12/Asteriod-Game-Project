@@ -3,11 +3,17 @@
 // THIS PAGE CONTAINS IMPORTED CLASS BUTTON CLASS
 //**************************************************************
 //--------------------------------------------------------------
+
+//--------------------------------------------------------------
+//Button Class:Makes the transition button in the game
+//--------------------------------------------------------------
 class Button {
+  //class variables
   String text;
   int x, y, w, h;
   color normal, highlight;
   
+  //constructor used
   Button(String t, int _x, int _y, int _w, int _h, color norm, color high) {
     text = t;
     x = _x;
@@ -17,12 +23,14 @@ class Button {
     normal = norm;
     highlight = high;
   }
-
+ 
+  //check if mouse is hovering
   boolean isHovered() {
     return mouseX > x - w/2 && mouseX < x + w/2 && 
            mouseY > y - h/2 && mouseY < y + h/2;
   }
 
+  //display button
   void show() {
     pushStyle();
     // Button appearance
@@ -39,4 +47,4 @@ class Button {
     text(text, x, y);
     popStyle();
   }
-}
+ }

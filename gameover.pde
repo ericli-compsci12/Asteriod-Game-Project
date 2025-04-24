@@ -26,6 +26,9 @@ void gameover() {
     myButton.text = "RETRY";
     myButton.show();
   }
+  
+  
+  
 
   if (mouseReleased && myButton.isHovered()) {
     mode = intro;
