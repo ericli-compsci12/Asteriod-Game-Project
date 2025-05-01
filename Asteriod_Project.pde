@@ -37,6 +37,7 @@ AudioPlayer fireshot;
 AudioPlayer teleport;
 AudioPlayer victory;
 AudioPlayer loss;
+AudioPlayer hit;
 AudioInput Input;
 
 //COLOR PALLETE
@@ -91,6 +92,7 @@ boolean wasPressed;
 Spaceship player1; //Spaceship class instance variable 1
 Spaceship ship; //Spaceship class instance variable 2
 Asteriod myAsteriod = new Asteriod(); //Asteriod class instance variable
+UFO myUFO;//NPC instance variable
 
 //List of game objects
 ArrayList<GameObject> objects;
@@ -114,6 +116,9 @@ float loadingProgress;
 
 //check if game is won
 boolean gameWon = false;
+
+//timer for ufo
+int ufoTimer = 0;
 
 
 //--------------------------------------------------------------
@@ -183,6 +188,7 @@ void setup() {
   teleport = minim.loadFile("teleport-14639.mp3");
   victory = minim.loadFile("victorymale-version-230553.mp3");
   loss = minim.loadFile("8bit-lose-life-sound-wav-97245.mp3");
+  hit = minim.loadFile("asteriodhit.mp3");
    
   //loop the song
   backgroundm.loop();
@@ -193,6 +199,15 @@ void setup() {
 //--------------------------------------------------------------
 
 void draw() {
+  
+  //ufo timing
+  ufoTimer++;
+  if ((ufoTimer >= 1000) && (mode == game)) {
+    makeUFO();
+    ufoTimer = 0;
+    enermy.rewind();
+    enermy.play();
+  }
  
   // Update mouseReleased state
   click(); 

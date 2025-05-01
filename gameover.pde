@@ -34,4 +34,16 @@ void gameover() {
     mode = intro;
     gameWon = false; // Reset win state
   }
+  
+  //close all audio except background when game ends
+  if (mode != game) {
+   enermy.pause();
+   firstc.pause();
+   secondc.pause();
+   beep.pause();
+   thirdc.pause();
+   fireshot.pause();
+   teleport.pause();
+   hit.pause();
+  }
 }

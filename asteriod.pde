@@ -127,7 +127,8 @@ class Asteriod extends GameObject {
         //decrease life on both sides
         lives--;
         currentObject.lives--;
-        //possible sound effect here in the future
+        hit.rewind();
+        hit.play();
       }
     } 
     // Spaceship collision
