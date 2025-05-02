@@ -6,11 +6,13 @@
 class UFO extends GameObject {
   int timer=0;//times the time when the ufo first appears
   boolean npcalive;
+  PVector initialVel; // Store the initial velocity
   
   UFO(PVector loc, PVector vel) {
     super(loc, vel);
-    this.d = 50; // Size of UFO
+    this.d = 100; // Size of UFO
     lives = 1;
+    this.initialVel = vel.copy(); // Capture initial velocity
   }
 
   void act() {
@@ -25,7 +27,7 @@ class UFO extends GameObject {
   if (ship != null) {
     npcalive = true;
     float dy = ship.loc.y - this.loc.y;
-    // Set Y velocity to move towards the spaceship at 2 pixels per frame
+    // Set Y velocity to move towards the spaceship at 2 per frame
     if (dy >= 2)
     {
       vel.y = 2;
@@ -41,7 +43,10 @@ class UFO extends GameObject {
     npcalive =false;
   }
   
-  
+  // Gradually correct X velocity towards initial velocity
+  float xCorrection = (initialVel.x - vel.x) * 0.01; 
+  vel.x += xCorrection;
+
   loc.add(vel);
   checkForCollisions2(); // Detect collisions with other objects
   if (loc.x < -d || loc.x > width+d || loc.y < -d || loc.y > height+d) {
@@ -56,7 +61,6 @@ class UFO extends GameObject {
   
   if (npcalive == true) {
     timer++;
-    println(timer);
   }
   if ((timer <= 1000) && (timer >= 0)) {
     wrapAround();
@@ -66,7 +70,7 @@ class UFO extends GameObject {
   void show() {
     //draw the ufo to ratio
     float ratio = (float)ufo.height/ufo.width;
-    float displayWidth = d * 2;  // width
+    float displayWidth = d;  // width
     float displayHeight = displayWidth * ratio;
     image(ufo, loc.x, loc.y, displayWidth, displayHeight);
   }
@@ -84,7 +88,7 @@ class UFO extends GameObject {
    if (currentObject instanceof Asteriod && currentObject != this) {
      //calculate distance
       float distance = dist(loc.x, loc.y, currentObject.loc.x, currentObject.loc.y);
-      float minDist = d/2 + currentObject.d/2-20; // Minimum safe distance
+      float minDist = d/2 + currentObject.d/2; // Minimum safe distance
       
       if (distance < minDist) {
         // Calculate collision normal
@@ -115,7 +119,7 @@ class UFO extends GameObject {
     
     else if (currentObject instanceof Spaceship) {
       //check distance
-      float collisionDistance = d/2 + currentObject.d/2 + 35;
+      float collisionDistance = d/2 + currentObject.d/2 + 30;
       if (dist(loc.x, loc.y, currentObject.loc.x, currentObject.loc.y) < collisionDistance) {
          if (ship.invincibilityTimer <= 0) {
         //decrease life on both sides
@@ -146,6 +150,17 @@ class UFO extends GameObject {
         currentObject.vel.add(PVector.mult(collisionNormal, -force * 0.8));
       }
     }
+    
+    else if (currentObject instanceof Bullet) {
+      // check distance
+      if ((dist(loc.x, loc.y, currentObject.loc.x, currentObject.loc.y) < d/2 + currentObject.d/2) && (frompl == true)) {
+        //decrease life on both sides
+        lives--;
+        currentObject.lives--;
+        enermyde.rewind();
+        enermyde.play();
+      }
+    }
     i++;
   }
 }
@@ -154,6 +169,13 @@ class UFO extends GameObject {
 }
 
 void makeUFO() {
+  //check if theres no ufo on screen
+  for (GameObject obj : objects) {
+    if (obj instanceof UFO) {
+      return; // Exit function if UFO exists
+    }
+  }
+
   //left:0,right:1
   int edge = int(random(2)); 
   float x, y, vx, vy;

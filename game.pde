@@ -65,6 +65,7 @@ void game() {
     for (GameObject b :objects) b.show();
   }
   
+  drawUFOBorderEffect();
   //Always draw pause screen on top if paused
   if (isPaused) drawPauseScreen();
   

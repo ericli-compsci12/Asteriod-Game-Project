@@ -29,6 +29,7 @@ Gif background;
 Minim minim;
 AudioPlayer backgroundm;
 AudioPlayer enermy;
+AudioPlayer enermyde;
 AudioPlayer firstc;
 AudioPlayer secondc;
 AudioPlayer beep;
@@ -120,6 +121,9 @@ boolean gameWon = false;
 //timer for ufo
 int ufoTimer = 0;
 
+//checks whether the bullet is from the player
+boolean frompl;
+
 
 //--------------------------------------------------------------
 // Setup function: Initializes game window and loads resources
@@ -189,6 +193,7 @@ void setup() {
   victory = minim.loadFile("victorymale-version-230553.mp3");
   loss = minim.loadFile("8bit-lose-life-sound-wav-97245.mp3");
   hit = minim.loadFile("asteriodhit.mp3");
+  enermyde = minim.loadFile("86267_enemyd-[AudioTrimmer.com].mp3");
    
   //loop the song
   backgroundm.loop();
@@ -208,6 +213,7 @@ void draw() {
     enermy.rewind();
     enermy.play();
   }
+  
  
   // Update mouseReleased state
   click(); 

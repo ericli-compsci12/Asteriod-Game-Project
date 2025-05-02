@@ -45,5 +45,6 @@ void gameover() {
    fireshot.pause();
    teleport.pause();
    hit.pause();
+   enermyde.pause();
   }
 }

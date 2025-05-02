@@ -123,7 +123,7 @@ class Asteriod extends GameObject {
     // Bullet Collision
     if (currentObject instanceof Bullet) {
       // check distance
-      if (dist(loc.x, loc.y, currentObject.loc.x, currentObject.loc.y) < d/2 + currentObject.d/2) {
+      if ((dist(loc.x, loc.y, currentObject.loc.x, currentObject.loc.y) < d/2 + currentObject.d/2) && (frompl == true)) {
         //decrease life on both sides
         lives--;
         currentObject.lives--;

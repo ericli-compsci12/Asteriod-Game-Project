@@ -14,13 +14,18 @@ class Bullet extends GameObject {
   //times the bullet
   int timer;
   
-  Bullet () {
+  Bullet (boolean fromp) {
     //loc = new PVector(player1.loc.x,player1.loc.y);
     //loc = player1.loc.copy();
     //vel = player1.vel.copy();
     //makes sure it shoots from the spaceship
     super(player1.loc.copy(),player1.dir.copy());
-    
+    if (fromp == true) {
+      frompl = true;
+    }
+  else if (fromp == false) {
+    frompl = false; 
+  }
     //Time it 
     vel.setMag(10);
     timer = 60;
