@@ -127,6 +127,7 @@ class Spaceship extends GameObject {
     applySpeedLimit();//Enforce speed limit
     shoot();
     wrapAround();
+    checkForCollisions3();
     
     //timer
      if (teleportCooldown > 0) {
@@ -199,4 +200,37 @@ class Spaceship extends GameObject {
     }
   }
   
+  void checkForCollisions3() {
+    int i = 0;
+  // Repeat through all game objects
+  while (i < objects.size()) {
+    GameObject currentObject = objects.get(i);
+    if (currentObject instanceof Bullet) {
+      // check distance
+      if ((dist(loc.x, loc.y, currentObject.loc.x, currentObject.loc.y) < d/2 + currentObject.d/2) && (frompl == false)) {
+       if (ship.invincibilityTimer <= 0) {
+        //decrease life on both sides
+        lives--;
+        currentObject.lives--;
+        beep.rewind();
+        beep.play();
+        if (lives == 2) {
+          firstc.rewind();
+          firstc.play();
+        }
+        else if (lives == 1) {
+          secondc.rewind();
+          secondc.play();
+        }
+        else if (lives == 0) {
+          thirdc.rewind();
+          thirdc.play();
+        }
+        ship.invincibilityTimer = ship.INVINCIBILITY_DURATION; // Reset timer
+           }
+         }
+       }
+       i++;
+    }
+  }
 }

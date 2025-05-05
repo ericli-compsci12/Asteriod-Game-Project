@@ -223,9 +223,7 @@ void aicon (PVector il,float diam,float spinSpeed) {
   
 }
 
-  
-
-
+ 
 }
   
   

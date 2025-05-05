@@ -7,6 +7,7 @@ class UFO extends GameObject {
   int timer=0;//times the time when the ufo first appears
   boolean npcalive;
   PVector initialVel; // Store the initial velocity
+  int cooldown=0;
   
   UFO(PVector loc, PVector vel) {
     super(loc, vel);
@@ -23,6 +24,7 @@ class UFO extends GameObject {
       ship = (Spaceship) obj;
       break;
     }
+    shoot2();
   }
   if (ship != null) {
     npcalive = true;
@@ -165,7 +167,13 @@ class UFO extends GameObject {
   }
 }
 
-  
+void shoot2() {
+  cooldown = cooldown-1;
+     if (cooldown <= 0) {
+    objects.add(new Bullet(false));
+    cooldown = 10;
+  }
+ }
 }
 
 void makeUFO() {
@@ -193,11 +201,10 @@ void makeUFO() {
     vy = 0;
   }
   
-  objects.add(new UFO(new PVector(x, y), new PVector(vx, vy)));
-  
-  
-  
+  objects.add(new UFO(new PVector(x, y), new PVector(vx, vy))); 
 }
+
+
 
 
 

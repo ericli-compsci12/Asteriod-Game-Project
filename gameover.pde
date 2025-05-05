@@ -41,7 +41,6 @@ void gameover() {
    firstc.pause();
    secondc.pause();
    beep.pause();
-   thirdc.pause();
    fireshot.pause();
    teleport.pause();
    hit.pause();

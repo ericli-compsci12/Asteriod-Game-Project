@@ -32,6 +32,26 @@ class Bullet extends GameObject {
     d = 5;
     //Die when collided
     lives = 1;
+    
+    if (frompl) {
+      loc.set(ship.loc);
+      vel.set(ship.dir.copy().mult(10)); 
+    } else {
+      // UFO bullet - find UFO and target player
+      UFO shooter = findUFO();
+      if (shooter != null) {
+        loc.set(shooter.loc);
+        PVector direction = PVector.sub(ship.loc, shooter.loc).normalize();
+        vel.set(direction.mult(13)); 
+      }
+    }
+  }
+  
+  UFO findUFO() {
+    for (GameObject obj : objects) {
+      if (obj instanceof UFO) return (UFO) obj;
+    }
+    return null;
   }
   
   //draw the bullet
