@@ -15,7 +15,7 @@ void drawCooldownBar() {
   int x = 10;            // Top-left X position
   int y = 10;            // Top-left Y position
 
-  // Calculate fill percentage (0.0 to 1.0)
+  // Calculate fill percentage from 0.0 to 1.0
   float fillRatio = 1.0 - (ship.cooldown / 15.0);
   //contrain the ration to make sure not overflow
   fillRatio = constrain(fillRatio, 0.0, 1.0);

@@ -6,6 +6,11 @@
 void game() {
   background(black);
   
+   pushStyle();
+  imageMode(CORNER);
+  image(bg, 0, 0, width, height);
+  popStyle();
+  
    drawCooldownBar();//draw the cool down of the bullet
    
     drawLifeBar();//draw the life of the ship

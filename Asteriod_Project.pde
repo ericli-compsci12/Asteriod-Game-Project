@@ -62,6 +62,10 @@ color gold = #FFD700;
 color orange = #FFA500;
 //grey color rgb(100, 100, 100)
 color grey = #646464;
+//purple color rgb(211, 3, 252)
+color purple = #d303fc;
+//purple blue color rgb(115, 3, 252)
+color purpblue = #7303fc;
 
 //MODE FRAMEWORK
 int mode = 3;
@@ -94,6 +98,7 @@ Spaceship player1; //Spaceship class instance variable 1
 Spaceship ship; //Spaceship class instance variable 2
 Asteriod myAsteriod = new Asteriod(); //Asteriod class instance variable
 UFO myUFO;//NPC instance variable
+Particle particles; //Particle class instance variable
 
 //List of game objects
 ArrayList<GameObject> objects;
@@ -106,6 +111,7 @@ PImage bullet;
 PImage asteriods;
 PImage loadingBg;
 PImage ufo;
+PImage bg;
 
 //Pause variable
 boolean isPaused = false; 
@@ -121,8 +127,7 @@ boolean gameWon = false;
 //timer for ufo
 int ufoTimer = 0;
 
-//checks whether the bullet is from the player
-boolean frompl;
+
 
 
 //--------------------------------------------------------------
@@ -142,6 +147,7 @@ void setup() {
   //initialization of player objects
   player1 = new Spaceship();
   ship = new Spaceship(); 
+  myUFO = new UFO(new PVector(0, 0), new PVector(0, 0));
    // Create a list to manage all game objects (ships, asteroids, etc.)
   objects = new ArrayList();
   //adding the main player
@@ -159,9 +165,11 @@ void setup() {
   asteriods = loadImage("asteriod.png");//the asteriod picture
   loadingBg = loadImage("loading baackground.jpg");//the background of the loading page
   ufo = loadImage("ufo.png");//the ufo picture
+  bg = loadImage("background222.jpg");//the game background picture
   
   //scaling loading mode background picture 
   loadingBg.resize(0, height);
+  bg.resize(0,height);
   
   // Scale the image to 1cm × 1cm (convert cm to pixels)
   float cmToPixels = 57.795;
@@ -235,7 +243,7 @@ void draw() {
   }
 }
 
-// Synchronize player object's position/direction with main ship's state
+// Synchronize player object's position and direction with main ship's state
 void updatePlayerReference() {
   // Copy main ship's current location to player1
   player1.loc.set(ship.loc);

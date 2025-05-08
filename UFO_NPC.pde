@@ -8,6 +8,7 @@ class UFO extends GameObject {
   boolean npcalive;
   PVector initialVel; // Store the initial velocity
   int cooldown=0;
+  float dx;// calculate horizntal distance between npc and player
   
   UFO(PVector loc, PVector vel) {
     super(loc, vel);
@@ -17,6 +18,7 @@ class UFO extends GameObject {
   }
 
   void act() {
+     shoot();
   // Adjust y velocity towards the spaceship
   Spaceship ship = null;
   for (GameObject obj : objects) {
@@ -24,7 +26,6 @@ class UFO extends GameObject {
       ship = (Spaceship) obj;
       break;
     }
-    shoot2();
   }
   if (ship != null) {
     npcalive = true;
@@ -58,6 +59,9 @@ class UFO extends GameObject {
   }
   
   if (lives == 0) {
+    for (int i = 0; i < 40; i++) {
+    objects.add(new Particle(loc.copy()));
+  }
     enermy.pause();
   }
   
@@ -154,8 +158,9 @@ class UFO extends GameObject {
     }
     
     else if (currentObject instanceof Bullet) {
+        Bullet bullet = (Bullet) currentObject;
       // check distance
-      if ((dist(loc.x, loc.y, currentObject.loc.x, currentObject.loc.y) < d/2 + currentObject.d/2) && (frompl == true)) {
+      if ((dist(loc.x, loc.y, currentObject.loc.x, currentObject.loc.y) < d/2 + currentObject.d/2) && (bullet.frompl == true)) {
         //decrease life on both sides
         lives--;
         currentObject.lives--;
@@ -167,13 +172,26 @@ class UFO extends GameObject {
   }
 }
 
-void shoot2() {
-  cooldown = cooldown-1;
-     if (cooldown <= 0) {
-    objects.add(new Bullet(false));
-    cooldown = 10;
+void shoot() {
+  if (cooldown <= 0) {
+    float dir = (vel.x >= 0) ? 1 : -1;
+    PVector bulletVel = new PVector(6 * dir, 0);
+    float dx = ship.loc.x - this.loc.x;
+    if (dx > 0) {
+      bulletVel.x = abs(bulletVel.x);
+      bulletVel.y = abs(bulletVel.y);
+    }
+    else if (dx < 0) {
+      bulletVel.x = -abs(bulletVel.x);
+      bulletVel.y = -abs(bulletVel.y);
+    }
+    PVector spawnPoint = loc.copy().add(dir * (d/2 + 5), 0);
+
+    objects.add(new Bullet(spawnPoint, bulletVel, false));
+    cooldown = 30;  // reset your 0.5s cooldown
   }
- }
+  cooldown--;       // tick it down each frame
+}
 }
 
 void makeUFO() {

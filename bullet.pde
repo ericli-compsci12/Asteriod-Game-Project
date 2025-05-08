@@ -13,6 +13,9 @@ class Bullet extends GameObject {
   
   //times the bullet
   int timer;
+  //checks whether the bullet is from the player
+  boolean frompl;
+  
   
   Bullet (boolean fromp) {
     //loc = new PVector(player1.loc.x,player1.loc.y);
@@ -32,32 +35,34 @@ class Bullet extends GameObject {
     d = 5;
     //Die when collided
     lives = 1;
-    
-    if (frompl) {
-      loc.set(ship.loc);
-      vel.set(ship.dir.copy().mult(10)); 
-    } else {
-      // UFO bullet - find UFO and target player
-      UFO shooter = findUFO();
-      if (shooter != null) {
-        loc.set(shooter.loc);
-        PVector direction = PVector.sub(ship.loc, shooter.loc).normalize();
-        vel.set(direction.mult(13)); 
-      }
-    }
   }
   
-  UFO findUFO() {
-    for (GameObject obj : objects) {
-      if (obj instanceof UFO) return (UFO) obj;
+  
+  Bullet(PVector startLoc, PVector startVel, boolean fromp) {
+    super(startLoc.copy(), startVel.copy());
+    if (fromp == true) {
+      frompl = true;
     }
-    return null;
+  else if (fromp == false) {
+    frompl = false; 
   }
+    this.vel.setMag(10);   // ensure consistent speed
+    this.timer = 60;       // bullet lives for 60 frames
+    this.d = 5;            // diameter
+    this.lives = 1;        // one hit
+  }
+
   
   //draw the bullet
   void show () {
     fill(black);
+    if (frompl == true) {
     stroke(white);
+    }
+    else if (frompl == false)
+    {
+      stroke(red);
+    }
     strokeWeight(2);
     circle(loc.x,loc.y,d);
   }
@@ -72,10 +77,6 @@ class Bullet extends GameObject {
     
     //wrap around the screen
     wrapAround();
-  }
-  
-  
-    
-    
-  }
+  } 
+ }
   

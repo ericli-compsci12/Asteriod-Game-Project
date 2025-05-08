@@ -97,6 +97,11 @@ class Asteriod extends GameObject {
       objects.add(smaller); // Add to game object list
       }
     }
+     
+     // Generate particles
+  for (int i = 0; i < 40; i++) {
+    objects.add(new Particle(loc.copy()));
+  }
   }
   
 //--------------------------------------------------------------
@@ -122,13 +127,22 @@ class Asteriod extends GameObject {
     
     // Bullet Collision
     if (currentObject instanceof Bullet) {
+      Bullet bullet = (Bullet) currentObject;
       // check distance
-      if ((dist(loc.x, loc.y, currentObject.loc.x, currentObject.loc.y) < d/2 + currentObject.d/2) && (frompl == true)) {
+      if ((dist(loc.x, loc.y, currentObject.loc.x, currentObject.loc.y) < d/2 + currentObject.d/2)) {
+        if (bullet.frompl == true) {
         //decrease life on both sides
         lives--;
         currentObject.lives--;
         hit.rewind();
         hit.play();
+        
+        }
+        
+         else if (bullet.frompl == false) {
+         currentObject.lives--;
+        }
+        
       }
     } 
     // Spaceship collision

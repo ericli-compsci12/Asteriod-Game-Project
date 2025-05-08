@@ -35,6 +35,7 @@ class Spaceship extends GameObject {
     //loc = new PVector(width/2,height/2);
     //vel = new PVector(0,0);
     super(width/2,height/2,0,0);
+    this.d = 40;
     dir  = new PVector(0,-1);
     cooldown = 0;
     lives = 3;
@@ -158,7 +159,11 @@ class Spaceship extends GameObject {
             }
             
             attempts++;
+          if (attempts > 100) {
+          println("ERROR");
         }
+        }
+       
 
         if (validPosition) {
             loc.set(newLoc);
@@ -206,8 +211,10 @@ class Spaceship extends GameObject {
   while (i < objects.size()) {
     GameObject currentObject = objects.get(i);
     if (currentObject instanceof Bullet) {
+      Bullet bullet = (Bullet) currentObject;
+      float collisionDistance = this.d/2 + bullet.d/2;
       // check distance
-      if ((dist(loc.x, loc.y, currentObject.loc.x, currentObject.loc.y) < d/2 + currentObject.d/2) && (frompl == false)) {
+      if ((dist(loc.x, loc.y, currentObject.loc.x, currentObject.loc.y) < collisionDistance) && (bullet.frompl == false)) {
        if (ship.invincibilityTimer <= 0) {
         //decrease life on both sides
         lives--;
