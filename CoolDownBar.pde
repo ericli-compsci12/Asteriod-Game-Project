@@ -69,7 +69,7 @@ void drawLifeBar() {
 
 
 //--------------------------------------------------------------
-//TELEPORT COOLDOWN BAR: indicates when you can teeport
+//TELEPORT COOLDOWN BAR: indicates when you can teleport
 //--------------------------------------------------------------
 
 void drawTeleportBar() {

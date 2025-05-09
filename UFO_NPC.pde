@@ -188,7 +188,7 @@ void shoot() {
     PVector spawnPoint = loc.copy().add(dir * (d/2 + 5), 0);
 
     objects.add(new Bullet(spawnPoint, bulletVel, false));
-    cooldown = 30;  // reset your 0.5s cooldown
+    cooldown = 30;  // reset cooldown
   }
   cooldown--;       // tick it down each frame
 }
